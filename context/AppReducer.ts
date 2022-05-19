@@ -1,8 +1,13 @@
 import { Reducer } from "react";
 import { Action, State } from "../types/types";
 
-export const initialState: State = {};
+export const initialState: State = { username: "" };
 
 export const AppReducer: Reducer<State, Action> = (state, action) => {
-  return state;
+  switch (action.type) {
+    case "ADD_USERNAME":
+      return { ...state, username: action.payload };
+    default:
+      return state;
+  }
 };
