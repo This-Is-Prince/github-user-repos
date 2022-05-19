@@ -16,6 +16,7 @@ const Header = () => {
         onSubmit={(e) => {
           console.log("Submit");
           e.preventDefault();
+          dispatch({ type: "FIND_USER" });
         }}
         className="w-4/5 flex flex-col gap-y-2 text-center"
       >
