@@ -17,7 +17,7 @@ const Home: NextPage = () => {
       </Head>
       <Header />
       <main className="flex justify-center items-center bg-[#0d1117]">
-        {isLoading && <Loading />}
+        {isLoading.value && <Loading why={isLoading.why} />}
       </main>
     </>
   );

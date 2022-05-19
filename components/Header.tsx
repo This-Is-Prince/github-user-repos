@@ -14,9 +14,11 @@ const Header = () => {
       </h1>
       <form
         onSubmit={(e) => {
-          console.log("Submit");
           e.preventDefault();
-          dispatch({ type: "FIND_USER" });
+          if (username) {
+            console.log("Submit");
+            dispatch({ type: "FIND_USER" });
+          }
         }}
         className="w-4/5 flex flex-col gap-y-2 text-center"
       >
