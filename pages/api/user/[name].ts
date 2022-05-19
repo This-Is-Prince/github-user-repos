@@ -1,14 +1,9 @@
 import { NextApiRequest, NextApiResponse } from "next";
+import { User } from "../../../types/types";
 
 let prevUserData: {
   login: string;
-  acc: {
-    avatar_url: string;
-    name: string;
-    bio: string;
-    location: string;
-    twitter_username: string;
-  };
+  acc: User;
   error: { msg: string };
 } = {
   login: "",
@@ -18,6 +13,7 @@ let prevUserData: {
     bio: "",
     location: "",
     twitter_username: "",
+    total_repos: 0,
   },
   error: { msg: "" },
 };
@@ -35,7 +31,7 @@ export default async function handler(
       res.status(500).json({ error: prevUserData.error });
       return;
     }
-    res.status(200).json({ acc: prevUserData.acc });
+    res.status(200).json(prevUserData.acc);
     return;
   }
   try {
@@ -48,6 +44,10 @@ export default async function handler(
       res.status(404).json({ error: prevUserData.error });
       return;
     } else {
+      let response = await fetch(user.repos_url + "?per_page=100");
+      let repos = await response.json();
+      console.log(repos.length);
+      console.log(repos[0]);
       prevUserData.acc.avatar_url = user.avatar_url;
       prevUserData.acc.name = user.name;
       prevUserData.acc.bio = user.bio;
@@ -55,7 +55,7 @@ export default async function handler(
       prevUserData.acc.twitter_username = user.twitter_username;
       prevUserData.error.msg = "";
     }
-    res.status(200).json({ acc: prevUserData.acc });
+    res.status(200).json(prevUserData.acc);
   } catch (error) {
     prevUserData.error.msg = "Internal Server Error";
     res.status(500).json({ error });

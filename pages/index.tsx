@@ -2,11 +2,12 @@ import type { NextPage } from "next";
 import Head from "next/head";
 import Header from "../components/Header";
 import Loading from "../components/Loading";
+import User from "../components/user/User";
 import { useAppContext } from "../context/AppContext";
 
 const Home: NextPage = () => {
   const {
-    state: { isLoading },
+    state: { isLoading, user },
   } = useAppContext()!;
   return (
     <>
@@ -16,8 +17,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
       <Header />
-      <main className="flex justify-center items-center bg-[#0d1117]">
+      <main className="flex justify-center bg-[#0d1117]  border-t-2">
         {isLoading.value && <Loading why={isLoading.why} />}
+        {user.name && <User />}
       </main>
     </>
   );
