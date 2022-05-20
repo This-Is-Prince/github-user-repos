@@ -10,7 +10,7 @@ const Info: FC<InfoProps> = ({
   twitter_username,
 }) => {
   return (
-    <section className="text-white px-10 py-5 grid gap-y-5">
+    <section className="text-white px-10 py-5 grid gap-y-5 md:grid-cols-[auto,_1fr] items-center">
       <article className="flex justify-center">
         <img
           className="rounded-full w-2/4"

@@ -6,15 +6,8 @@ import Repos from "./Repos";
 const User = () => {
   const {
     state: {
-      user: {
-        avatar_url,
-        bio,
-        name,
-        location,
-        public_repos,
-        twitter_username,
-        repos,
-      },
+      user: { avatar_url, bio, name, location, twitter_username, repos },
+      pages,
     },
   } = useAppContext()!;
   return (
@@ -26,7 +19,7 @@ const User = () => {
         avatar_url={avatar_url}
         twitter_username={twitter_username}
       />
-      <Repos repos={repos} public_repos={public_repos} />
+      <Repos repos={repos} pages={pages} />
     </div>
   );
 };

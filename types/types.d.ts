@@ -25,9 +25,17 @@ interface InfoProps {
   location: string;
   twitter_username: string;
 }
+interface Page {
+  which: "NEXT" | "PREVIOUS" | "ACTIVE" | "NORMAL";
+  value: number;
+}
+
 interface ReposProps {
   repos: Repo[];
-  public_repos: number;
+  pages: Page[];
+}
+interface PaginationProps {
+  pages: Page[];
 }
 
 interface Repo {
@@ -41,13 +49,15 @@ interface State {
   username: string;
   user: User;
   isLoading: { value: boolean; why: Api };
+  pages: Page[];
   page: number;
 }
 type Action =
   | { type: "ADD_USERNAME"; payload: string }
   | { type: "IS_LOADING"; payload: boolean }
   | { type: "FIND_USER" }
-  | { type: "ADD_USER"; payload: User };
+  | { type: "ADD_USER"; payload: User }
+  | { type: "ADD_REPOS"; payload: Repo[] };
 
 export {
   Action,
@@ -59,4 +69,6 @@ export {
   InfoProps,
   Repo,
   ReposProps,
+  PaginationProps,
+  Page,
 };
