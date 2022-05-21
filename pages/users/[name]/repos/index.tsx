@@ -2,15 +2,15 @@ import axios from "axios";
 import { useRouter } from "next/router";
 import React, { useEffect, useState } from "react";
 import Loading from "../../../../components/Loading";
-import NotFound from "../../../../components/NotFound";
 import Info from "../../../../components/user/Info";
 import Repos from "../../../../components/user/Repos";
 import { Page, Repo, User } from "../../../../types/types";
 import { GoRepo } from "react-icons/go";
+import Error from "../../../../components/Error";
 
 const User = () => {
   const [isLoading, setIsLoading] = useState(true);
-  const [isError, setIsError] = useState(false);
+  const [error, setError] = useState("");
   const [user, setUser] = useState<User | null>(null);
   const [repos, setRepos] = useState<Repo[] | null>(null);
   const [pages, setPages] = useState<Page[]>([]);
@@ -18,8 +18,9 @@ const User = () => {
   const router = useRouter();
   const { name: username, page } = router.query;
   useEffect(() => {
-    console.log(username);
+    setError("");
     if (username) {
+      setIsLoading(true);
       axios
         .get(`https://api.github.com/users/${username}`)
         .then(async (res) => {
@@ -35,7 +36,6 @@ const User = () => {
             twitter_username,
             type,
             location,
-            repos_url,
           } = res.data;
           setUser({
             login,
@@ -53,14 +53,16 @@ const User = () => {
         })
         .catch((err) => {
           setIsLoading(false);
-          setIsError(true);
-          console.log(err);
+          if (err.status === 404) {
+            setError("User Not Found.");
+          } else {
+            setError("API rate limit exceeded.");
+          }
         });
     }
   }, [router.isReady, username]);
   useEffect(() => {
-    console.log(page);
-    if (page && !isError) {
+    if (page && !error) {
       setIsLoading(true);
       axios
         .get(
@@ -78,7 +80,6 @@ const User = () => {
             }
             newRepos.push({ description, html_url, languages, name });
           }
-          console.log(newRepos);
           setRepos(newRepos);
           if (user !== null) {
             const totalPages = Math.ceil(user.public_repos / 10);
@@ -102,18 +103,21 @@ const User = () => {
         })
         .catch((err) => {
           setIsLoading(false);
-          setIsError(true);
-          console.log(err);
+          if (err.status === 404) {
+            setError("User Not Found.");
+          } else {
+            setError("API rate limit exceeded.");
+          }
         });
     }
-  }, [router.isReady, page, username, isError, user]);
+  }, [router.isReady, page, username, error, user]);
 
   return (
     <>
       {isLoading && <Loading />}
       <main className="grid gap-y-5 border-[1px] border-t-0 p-5">
-        {isError ? (
-          <NotFound />
+        {error ? (
+          <Error message={error} />
         ) : (
           <>
             {user !== null && (
