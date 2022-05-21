@@ -3,20 +3,20 @@ import { Repo } from "../../types/types";
 
 const Repo: FC<Repo> = ({ description, html_url, languages, name }) => {
   return (
-    <article className="bg-white grid grid-rows-[auto,_1fr,auto] gap-y-2 p-2 border-2 rounded-md">
+    <article className="px-4 py-2 border-[1px] grid grid-rows-[auto,_1fr,_auto] gap-y-5">
       <a
         href={html_url}
-        className="font-medium tracking-wide italic text-2xl text-[#238636]"
+        className="text-[#4b8eda] font-bold text-xl tracking-widest"
       >
         {name}
       </a>
-      <p>{description}</p>
-      <div className="flex gap-x-3 flex-wrap gap-y-3">
+      <p className="text-white text-sm">{description}</p>
+      <div className="flex gap-x-2 flex-wrap gap-y-2">
         {languages.map((language) => {
           return (
             <span
               key={language}
-              className="px-2 py-1 bg-[#0d1117] text-xs text-white rounded-md flex items-center"
+              className="border-[1px] text-white text-[10px] px-2 py-[1px] rounded-sm"
             >
               {language}
             </span>

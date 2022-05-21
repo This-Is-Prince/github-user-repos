@@ -6,7 +6,7 @@ const Header = () => {
   const router = useRouter();
   const [name, setName] = useState("");
   return (
-    <header className="text-white flex flex-col items-center gap-y-10 py-10">
+    <header className="text-white flex flex-col items-center gap-y-10 py-10  border-[1px]">
       <h1 className="text-2xl font-bold tracking-wide">
         Search GitHub User Repos...
       </h1>
@@ -24,17 +24,16 @@ const Header = () => {
             placeholder="e.g johndoe"
             required={true}
           />
-          <div className="bg-[#238636] px-3 rounded-r-sm flex items-center justify-center">
-            <button
-              onClick={() => {
-                if (name !== "") {
-                  router.push(`/users/${name}`);
-                }
-              }}
-            >
-              <FaSearch />
-            </button>
-          </div>
+          <button
+            className="bg-[#238636] px-3 rounded-r-sm flex items-center justify-center"
+            onClick={() => {
+              if (name !== "") {
+                router.push(`/users/${name}/repos?page=1&per_page=10`);
+              }
+            }}
+          >
+            <FaSearch />
+          </button>
         </article>
       </section>
     </header>

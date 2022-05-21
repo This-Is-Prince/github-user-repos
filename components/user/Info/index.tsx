@@ -1,9 +1,3 @@
-import { FaMapMarkerAlt, FaTwitter, FaGithub } from "react-icons/fa";
-import { HiOutlineMail } from "react-icons/hi";
-import { CgOrganisation } from "react-icons/cg";
-import { BiLink } from "react-icons/bi";
-import { MdPeopleOutline } from "react-icons/md";
-
 import React, { FC } from "react";
 import { InfoProps } from "../../../types/types";
 import Avatar from "./Avatar";

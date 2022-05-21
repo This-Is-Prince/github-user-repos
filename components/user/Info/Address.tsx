@@ -6,7 +6,7 @@ const Address: FC<{ location: string; twitter_username: string }> = ({
   twitter_username,
 }) => {
   return (
-    <div className="border-[1px] border-white p-2 flex items-center justify-between">
+    <div className="border-[1px] border-white p-2 flex items-center justify-between gap-x-10">
       <address className="flex gap-x-2 items-center">
         <span>
           <FaMapMarkerAlt />

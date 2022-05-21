@@ -6,7 +6,7 @@ import Repo from "./Repo";
 const Repos: FC<ReposProps> = ({ repos, pages }) => {
   return (
     <section className="px-10 py-5">
-      <div className="grid gap-y-5 md:grid-cols-2 md:gap-x-5 lg:grid-cols-3 xl:grid-cols-4">
+      <div className="grid gap-y-5 gap-x-5 md:grid-cols-2 xl:grid-cols-3">
         {repos.map(({ description, html_url, languages, name }) => {
           return (
             <Repo
