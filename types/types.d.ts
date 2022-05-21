@@ -10,20 +10,21 @@ interface LoadingProps {
 }
 
 interface User {
-  avatar_url: string;
-  name: string;
   bio: string;
+  name: string;
+  login: string;
   location: string;
-  twitter_username: string;
+  html_url: string;
+  followers: number;
+  following: number;
+  avatar_url: string;
   public_repos: number;
-  repos: any[];
-}
-interface InfoProps {
-  avatar_url: string;
-  name: string;
-  bio: string;
-  location: string;
   twitter_username: string;
+  type: "User" | "Organization" | string;
+}
+
+interface InfoProps {
+  user: User;
 }
 interface Page {
   which: "NEXT" | "PREVIOUS" | "ACTIVE" | "NORMAL";

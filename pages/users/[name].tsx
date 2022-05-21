@@ -4,10 +4,13 @@ import React, { useEffect, useState } from "react";
 import Loading from "../../components/Loading";
 import NotFound from "../../components/NotFound";
 import Info from "../../components/user/Info";
+import { User } from "../../types/types";
 
 const User = () => {
   const [isLoading, setIsLoading] = useState(true);
   const [isError, setIsError] = useState(false);
+  const [user, setUser] = useState<User | null>(null);
+
   const router = useRouter();
   const { name: username } = router.query;
   useEffect(() => {
@@ -18,6 +21,32 @@ const User = () => {
         .then(async (res) => {
           setIsLoading(false);
           console.log(res.data);
+          const {
+            login,
+            name,
+            bio,
+            avatar_url,
+            followers,
+            following,
+            html_url,
+            public_repos,
+            twitter_username,
+            type,
+            location,
+          } = res.data;
+          setUser({
+            login,
+            name,
+            bio,
+            avatar_url,
+            followers,
+            following,
+            html_url,
+            public_repos,
+            twitter_username,
+            type,
+            location,
+          });
         })
         .catch((err) => {
           setIsLoading(false);
@@ -34,7 +63,7 @@ const User = () => {
           <NotFound />
         ) : (
           <>
-            <div></div>
+            <div>{user !== null && <Info user={user} />}</div>
           </>
         )}
       </main>
