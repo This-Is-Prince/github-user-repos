@@ -14,13 +14,13 @@ const Page: FC<PageProps> = ({ value, which }) => {
       return <Normal value={value} />;
     case "NEXT":
       return (
-        <PrevNextWrapper rounded="rounded-r-lg">
+        <PrevNextWrapper value={value} rounded="rounded-r-lg">
           <Next />
         </PrevNextWrapper>
       );
     default:
       return (
-        <PrevNextWrapper rounded="rounded-l-lg">
+        <PrevNextWrapper value={value} rounded="rounded-l-lg">
           <Prev />
         </PrevNextWrapper>
       );

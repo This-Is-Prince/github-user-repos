@@ -20,6 +20,13 @@ const Header = () => {
             onChange={(e) => {
               setName(e.target.value.trim());
             }}
+            onKeyUp={(e) => {
+              if (e.key === "Enter") {
+                if (name !== "") {
+                  router.push(`/users/${name}/repos?page=1&per_page=10`);
+                }
+              }
+            }}
             className="px-3 py-2 rounded-l-sm text-black outline-none"
             placeholder="e.g johndoe"
             required={true}

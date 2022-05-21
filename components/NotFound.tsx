@@ -2,7 +2,7 @@ import React from "react";
 
 const NotFound = () => {
   return (
-    <div className="text-white flex items-center bg-red-500">
+    <div className="text-white flex items-center justify-center ">
       <h2 className="text-2xl font-bold">User Not Found</h2>
     </div>
   );

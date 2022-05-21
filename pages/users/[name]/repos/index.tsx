@@ -6,6 +6,7 @@ import NotFound from "../../../../components/NotFound";
 import Info from "../../../../components/user/Info";
 import Repos from "../../../../components/user/Repos";
 import { Page, Repo, User } from "../../../../types/types";
+import { GoRepo } from "react-icons/go";
 
 const User = () => {
   const [isLoading, setIsLoading] = useState(true);
@@ -13,7 +14,6 @@ const User = () => {
   const [user, setUser] = useState<User | null>(null);
   const [repos, setRepos] = useState<Repo[] | null>(null);
   const [pages, setPages] = useState<Page[]>([]);
-  const [count, setCount] = useState(1);
 
   const router = useRouter();
   const { name: username, page } = router.query;
@@ -60,7 +60,8 @@ const User = () => {
   }, [router.isReady, username]);
   useEffect(() => {
     console.log(page);
-    if (page) {
+    if (page && !isError) {
+      setIsLoading(true);
       axios
         .get(
           `https://api.github.com/users/${username}/repos?page=${page}&per_page=10`
@@ -79,6 +80,24 @@ const User = () => {
           }
           console.log(newRepos);
           setRepos(newRepos);
+          if (user !== null) {
+            const totalPages = Math.ceil(user.public_repos / 10);
+            const newPages: Page[] = [];
+            if (totalPages > 1) {
+              const pageNo = Number(page);
+              newPages.push({ which: "PREVIOUS", value: 0 });
+              const last = Math.min(totalPages, pageNo + 4);
+              for (let i = pageNo; i <= last; i++) {
+                if (i == pageNo) {
+                  newPages.push({ which: "ACTIVE", value: i });
+                } else {
+                  newPages.push({ which: "NORMAL", value: i });
+                }
+              }
+              newPages.push({ which: "NEXT", value: totalPages + 1 });
+              setPages(newPages);
+            }
+          }
           setIsLoading(false);
         })
         .catch((err) => {
@@ -87,7 +106,7 @@ const User = () => {
           console.log(err);
         });
     }
-  }, [router.isReady, page, username]);
+  }, [router.isReady, page, username, isError, user]);
 
   return (
     <>
@@ -97,13 +116,26 @@ const User = () => {
           <NotFound />
         ) : (
           <>
-            <div className="border-[1px] w-full max-w-6xl m-auto">
-              {user !== null && <Info user={user} />}
-            </div>
-            <div className="border-[1px] w-full max-w-6xl m-auto">
-              <h1 className="text-center text-white mt-5">Repositories</h1>
-              {repos !== null && <Repos repos={repos} pages={pages} />}
-            </div>
+            {user !== null && (
+              <div className="border-[1px] w-full max-w-6xl m-auto">
+                <Info user={user} />
+              </div>
+            )}
+
+            {repos !== null && (
+              <div className="border-[1px] w-full max-w-6xl m-auto">
+                <h1 className="flex justify-center items-center gap-x-2 text-white mt-5">
+                  <span>
+                    <GoRepo />
+                  </span>
+                  <span className="text-2xl">Repositories</span>
+                  <span className="rounded-md bg-gray-500 px-2 py-[1px]">
+                    {user?.public_repos}
+                  </span>
+                </h1>
+                {repos !== null && <Repos repos={repos} pages={pages} />}
+              </div>
+            )}
           </>
         )}
       </main>
